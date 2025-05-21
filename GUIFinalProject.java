@@ -9,8 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class GUIFinalProject {
+
+    private static int jumNum;
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             createForm();
@@ -35,6 +39,9 @@ public class GUIFinalProject {
         frame.setVisible(true);
     }
 
+    //define number of jumps available//
+    int jumpNum = 0;
+    
     private static void placeComponents(JPanel panel) {
         panel.setLayout(null);
         
@@ -55,14 +62,42 @@ public class GUIFinalProject {
             }
         });
         
+        //Make randomized equation//
+        Random ran = new Random();
+        int x = ran.nextInt(100);
+        int y = ran.nextInt(100);
         //make first equation//
-        JLabel equation1 = new JLabel("1 + 1 =");
-        equation1.setBounds(250, 125, 80, 25);
+        JLabel equation1 = new JLabel(x + " + " + y + " = ");
+        equation1.setBounds(240, 125, 100, 25);
         equation1.setFont(new Font("Serif", Font.PLAIN, 20));
         panel.add(equation1);
         JTextField equation1Ansewr = new JTextField(100);
         equation1Ansewr.setBounds(325, 125, 165, 25);
         panel.add(equation1Ansewr);
+        //make first check button//
+        JButton check1Button = new JButton("Check");
+        check1Button.setBounds(500, 125, 75, 25);
+        panel.add(check1Button);
+        
+        int helperInt1 = jumpNum;
+        
+        //add action to first button//
+        check1Button.addActionListener(new ActionListener() {
+            //set intermediate variable//
+            int helperInt2 = jumNum;
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /*check if anser is right or not: 
+                    - If answer is correct, add one to movable step
+                    - Else if anser is incorrect, minus one to movable step
+                */  
+                String inAns1 = equation1Ansewr.getText();
+                if(inAns1.equals(Integer.toString(x+y))){
+                    jumpNum++;
+                }
+            }
+        });
         
         //make second equation//
         JLabel equation2 = new JLabel("1 + 1 =");
@@ -72,6 +107,10 @@ public class GUIFinalProject {
         JTextField equation2Ansewr = new JTextField(100);
         equation2Ansewr.setBounds(325, 200, 165, 25);
         panel.add(equation2Ansewr);
+        //make secoind check button//
+        JButton check2Button = new JButton("Check");
+        check2Button.setBounds(500, 200, 75, 25);
+        panel.add(check2Button);
         
         
     }
