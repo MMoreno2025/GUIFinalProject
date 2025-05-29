@@ -137,20 +137,20 @@ public class GUIFinalProject {
         jumpLabel.setBounds(50, 200, 100, 30);
         panel.add(jumpLabel);
 
-        //scoreLabel = new JLabel("Score: 0");
-        //scoreLabel.setForeground(Color.BLACK);
-        //scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        //scoreLabel.setBounds(600, 320, 150, 30);
+        scoreLabel = new JLabel("Score: 0");
+        scoreLabel.setForeground(Color.BLACK);
+        scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        scoreLabel.setBounds(600, 320, 150, 30);
         //panel.add(scoreLabel);
 
-        //highScoreLabel = new JLabel("High Score: " + highScore);
-        //highScoreLabel.setForeground(Color.LIGHT_GRAY);
-        //highScoreLabel.setBounds(600, 290, 200, 30);
+        highScoreLabel = new JLabel("High Score: " + highScore);
+        highScoreLabel.setForeground(Color.LIGHT_GRAY);
+        highScoreLabel.setBounds(600, 290, 200, 30);
         //panel.add(highScoreLabel);
 
-        //clickCounter = new JLabel("Clicks: 0", SwingConstants.CENTER);
-        //clickCounter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        //clickCounter.setBounds(620, 350, 100, 30);
+        clickCounter = new JLabel("Clicks: 0", SwingConstants.CENTER);
+        clickCounter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        clickCounter.setBounds(620, 350, 100, 30);
         //panel.add(clickCounter);
 
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
