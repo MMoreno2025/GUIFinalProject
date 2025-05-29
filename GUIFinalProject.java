@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.List;
-import java.util.Arrays;
 
 public class GUIFinalProject {
     private static int jumps = 0;
@@ -53,6 +52,30 @@ public class GUIFinalProject {
         soundBtn.setBounds(600, 20, 150, 30);
         panel.add(soundBtn);
         soundBtn.addActionListener(e -> playSound("sounds/BackgroundMusic.wav"));
+
+        // === UP/DOWN BUTTONS START ===
+        JButton upButton = new JButton("Up");
+        upButton.setBounds(150, 80, 80, 30);
+        panel.add(upButton);
+        upButton.addActionListener(e -> {
+            if (jumps > 0) {
+                gamePanel.moveUp();
+                jumps--;
+                updateJumpDisplay();
+            }
+        });
+
+        JButton downButton = new JButton("Down");
+        downButton.setBounds(150, 130, 80, 30);
+        panel.add(downButton);
+        downButton.addActionListener(e -> {
+            if (jumps > 0) {
+                gamePanel.moveDown();
+                jumps--;
+                updateJumpDisplay();
+            }
+        });
+        // === UP/DOWN BUTTONS END ===
 
         a = random.nextInt(50); b = random.nextInt(50);
         eqEasy = new JLabel(a + " + " + b + " = ");
@@ -110,25 +133,25 @@ public class GUIFinalProject {
             }
         });
 
-        jumpLabel = new JLabel("Jumps: 0");
+        jumpLabel = new JLabel("Moves: 0");
         jumpLabel.setBounds(50, 200, 100, 30);
         panel.add(jumpLabel);
 
-        scoreLabel = new JLabel("Score: 0");
-        scoreLabel.setForeground(Color.BLACK);
-        scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        scoreLabel.setBounds(600, 320, 150, 30);
-        panel.add(scoreLabel);
+        //scoreLabel = new JLabel("Score: 0");
+        //scoreLabel.setForeground(Color.BLACK);
+        //scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        //scoreLabel.setBounds(600, 320, 150, 30);
+        //panel.add(scoreLabel);
 
-        highScoreLabel = new JLabel("High Score: " + highScore);
-        highScoreLabel.setForeground(Color.LIGHT_GRAY);
-        highScoreLabel.setBounds(600, 290, 200, 30);
-        panel.add(highScoreLabel);
+        //highScoreLabel = new JLabel("High Score: " + highScore);
+        //highScoreLabel.setForeground(Color.LIGHT_GRAY);
+        //highScoreLabel.setBounds(600, 290, 200, 30);
+        //panel.add(highScoreLabel);
 
-        clickCounter = new JLabel("Clicks: 0", SwingConstants.CENTER);
-        clickCounter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        clickCounter.setBounds(620, 350, 100, 30);
-        panel.add(clickCounter);
+        //clickCounter = new JLabel("Clicks: 0", SwingConstants.CENTER);
+        //clickCounter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //clickCounter.setBounds(620, 350, 100, 30);
+        //panel.add(clickCounter);
 
         JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
         separator.setBounds(0, 390, 800, 10);
@@ -197,7 +220,6 @@ public class GUIFinalProject {
         private final Timer obstacleMover;
 
         public GamePanel() {
-            //setBackground(Color.CYAN);
             playerY = tracks[1];
 
             new Timer(2000, e -> {
@@ -300,12 +322,26 @@ public class GUIFinalProject {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            setBackground(Color.BLACK); // optional background
             g.setColor(Color.GREEN);
             g.fillOval(100 - playerRadius, playerY - playerRadius, playerRadius * 2, playerRadius * 2);
             g.setColor(Color.RED);
             for (Rectangle r : obstacles) {
                 g.fillRect(r.x, r.y, r.width, r.height);
             }
+
+            // Draw track lines (optional, for visual separation)
+            g.setColor(Color.GRAY);
+            for (int y : tracks) {
+                g.drawLine(0, y + 25, getWidth(), y + 25);
+            }
+
+            // Update score here (optional logic)
+            score++;
+            scoreLabel.setText("Score: " + score);
+            highScoreLabel.setText("High Score: " + highScore);
         }
     }
 }
+
+       
