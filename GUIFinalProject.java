@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
+//Malia Moreno | 4 April 2025//
+package guifinalproject;
 
-package com.mycompany.guifinaltesting;
-
+//import files//
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -16,7 +14,7 @@ import java.util.Random;
 import java.util.List;
 import java.util.Arrays;
 
-public class GUIFinalTesting {
+public class GUIFinalProject {
     private static int jumps = 0;
     private static int score = 0;
     private static int highScore = 0;
@@ -32,7 +30,7 @@ public class GUIFinalTesting {
     private static int a, b, c, d;
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GUIFinalTesting::createForm);
+        SwingUtilities.invokeLater(GUIFinalProject::createForm);
         loadHighScore();
     }
 
@@ -140,22 +138,6 @@ public class GUIFinalTesting {
         gamePanel.setBounds(0, 400, 800, 500);
         frame.add(gamePanel);
 
-        JPanel overlayPanel = new JPanel(null);
-        overlayPanel.setOpaque(true);
-        overlayPanel.setBackground(new Color(200, 200, 200, 150));
-        overlayPanel.setBounds(0, 400, 150, 900);
-        frame.add(overlayPanel);
-
-        JButton upBtn = new JButton("↑");
-        upBtn.setBounds(30, 450, 60, 60);
-        frame.add(upBtn);
-        upBtn.addActionListener(e -> gamePanel.moveUp());
-
-        JButton downBtn = new JButton("↓");
-        downBtn.setBounds(30, 530, 60, 60);
-        frame.add(downBtn);
-        downBtn.addActionListener(e -> gamePanel.moveDown());
-
         Timer repaintTimer = new Timer(30, e -> gamePanel.repaint());
         repaintTimer.start();
 
@@ -211,12 +193,13 @@ public class GUIFinalTesting {
         private int playerY;
         private final int playerRadius = 20;
         private final List<Rectangle> obstacles = new ArrayList<>();
-        private final int[] tracks = {450, 550, 650};
+        private final int[] tracks = {150, 250, 350};
         private final Timer obstacleMover;
 
         public GamePanel() {
-            setBackground(Color.CYAN);
+            //setBackground(Color.CYAN);
             playerY = tracks[1];
+
             new Timer(2000, e -> {
                 int trackY = tracks[random.nextInt(tracks.length)];
                 obstacles.add(new Rectangle(800, trackY - 25, 40, 50));
@@ -225,22 +208,71 @@ public class GUIFinalTesting {
             obstacleMover = new Timer(30, e -> moveObstacles());
             obstacleMover.start();
 
-            heartsLabel = new JLabel("❤❤❤❤❤", SwingConstants.CENTER);
-            heartsLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+            setLayout(null);
+
+            heartsLabel = new JLabel("❤❤❤❤❤", SwingConstants.LEFT);
+            heartsLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
             heartsLabel.setForeground(Color.RED);
-            this.setLayout(null);
-            heartsLabel.setBounds(300, 10, 200, 30);
+            heartsLabel.setBounds(20, 10, 200, 30);
             this.add(heartsLabel);
+
+            scoreLabel = new JLabel("Score: 0");
+            scoreLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+            scoreLabel.setForeground(Color.WHITE);
+            scoreLabel.setBounds(600, 10, 100, 30);
+            this.add(scoreLabel);
+
+            highScoreLabel = new JLabel("High Score: " + highScore);
+            highScoreLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+            highScoreLabel.setForeground(Color.WHITE);
+            highScoreLabel.setBounds(600, 30, 200, 30);
+            this.add(highScoreLabel);
+
+            jumpLabel.setForeground(Color.WHITE);
+            jumpLabel.setBounds(20, 40, 100, 30);
+            this.add(jumpLabel);
+
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "moveUp");
+            getActionMap().put("moveUp", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (jumps > 0) {
+                        moveUp();
+                        jumps--;
+                        updateJumpDisplay();
+                    }
+                }
+            });
+
+            getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "moveDown");
+            getActionMap().put("moveDown", new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (jumps > 0) {
+                        moveDown();
+                        jumps--;
+                        updateJumpDisplay();
+                    }
+                }
+            });
         }
 
         public void moveUp() {
-            int index = Arrays.asList(tracks).indexOf(playerY);
-            if (index > 0) playerY = tracks[index - 1];
+            for (int i = 1; i < tracks.length; i++) {
+                if (playerY == tracks[i]) {
+                    playerY = tracks[i - 1];
+                    break;
+                }
+            }
         }
 
         public void moveDown() {
-            int index = Arrays.asList(tracks).indexOf(playerY);
-            if (index < tracks.length - 1) playerY = tracks[index + 1];
+            for (int i = 0; i < tracks.length - 1; i++) {
+                if (playerY == tracks[i]) {
+                    playerY = tracks[i + 1];
+                    break;
+                }
+            }
         }
 
         public void moveObstacles() {
